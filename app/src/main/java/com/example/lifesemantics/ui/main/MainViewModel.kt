@@ -20,10 +20,10 @@ class MainViewModel @Inject constructor(
     val hospitalInfo: LiveData<HospitalInfoResponse>
         get() = _hospitalInfo
 
-    fun getHospitalInfo() {
+    fun getHospitalInfo(hospitalName: String, latitude: Double, longitude: Double) {
         viewModelScope.launch {
             try {
-                _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo()
+                _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo(hospitalName, latitude, longitude)
             } catch (e: Exception) {
                 Log.e("Exception", e.toString())
             }
