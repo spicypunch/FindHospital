@@ -8,6 +8,10 @@ interface HospitalService {
 
     @GET("/B551182/hospInfoServicev2/getHospBasisList")
     suspend fun getHospitalInfo(
-        @Query("ServiceKey") serviceKey: String
+        @Query("ServiceKey") serviceKey: String,
+        @Query("yadmNm") hospitalName: String,
+        @Query("yPos") latitude: String,
+        @Query("xPos") longitude: String,
+        @Query("radius") radius: String
     ) : HospitalInfoResponse
 }
