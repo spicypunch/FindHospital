@@ -2,7 +2,6 @@ package com.example.lifesemantics.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lifesemantics.R
 import com.example.lifesemantics.databinding.ActivityMainBinding
-import com.example.lifesemantics.ui.LocationProvider
+import com.example.lifesemantics.util.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
