@@ -1,8 +1,10 @@
 package com.example.lifesemantics.data.entity
 
+import android.os.Parcelable
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
+import kotlinx.parcelize.Parcelize
 
 @Xml(name = "response")
 data class HospitalInfoResponse(
@@ -44,6 +46,7 @@ data class Items(
 )
 
 @Xml(name = "item")
+@Parcelize
 data class Item(
     @PropertyElement(name = "cmdcResdntCnt")
     val cmdcResdntCnt: String?,
@@ -137,4 +140,4 @@ data class Item(
 
     @PropertyElement(name = "mdeptSdrCnt")
     val mdeptSdrCnt: String?
-)
+) : Parcelable

@@ -1,5 +1,6 @@
 package com.example.lifesemantics.ui.main
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lifesemantics.data.entity.Item
 import com.example.lifesemantics.databinding.ItemBinding
+import com.example.lifesemantics.ui.detail.DetailActivity
 
 class RecyclerViewAdapter() : ListAdapter<Item, RecyclerViewAdapter.MyViewHolder>(diffUtil) {
 
@@ -15,6 +17,12 @@ class RecyclerViewAdapter() : ListAdapter<Item, RecyclerViewAdapter.MyViewHolder
 
         fun bind(item: Item) {
             binding.data = item
+
+            itemView.setOnClickListener {
+                Intent(root.context, DetailActivity::class.java).apply {
+                    putExtra("data", item)
+                }.run { root.context.startActivity(this) }
+            }
         }
     }
 

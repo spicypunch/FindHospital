@@ -1,4 +1,4 @@
-package com.example.lifesemantics.ui
+package com.example.lifesemantics.util
 
 import android.content.Context
 import android.content.pm.PackageManager
