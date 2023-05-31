@@ -103,7 +103,7 @@ data class Item(
     val estbDd: String?,
 
     @PropertyElement(name = "sgguCdNm")
-    val sgguCdNm: Int?,
+    val sgguCdNm: String?,
 
     @PropertyElement(name = "emdongNm")
     val emdongNm: String?,
@@ -115,7 +115,7 @@ data class Item(
     val addr: String?,
 
     @PropertyElement(name = "sidoCdNm")
-    val sidoCdNm: Int?,
+    val sidoCdNm: String?,
 
     @PropertyElement(name = "sgguCd")
     val sgguCd: Int?,

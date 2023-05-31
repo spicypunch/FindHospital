@@ -5,43 +5,54 @@
     <data>
         <variable
             name="data"
-            type="com.example.lifesemantics.data.entity.BasicHospitalInfoEntity" />
+            type="com.example.lifesemantics.data.entity.Item" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tvHospitalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@{data.hospitalName}"
+            android:text="@{data.yadmNm}"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingBottom="5dp"
             />
 
         <TextView
             android:id="@+id/tvHospitalTel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvHospitalName"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@{data.telephoneNum}"
+            android:text="@{data.telno}"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHospitalName"
+            android:paddingBottom="5dp"
             />
 
         <TextView
             android:id="@+id/tvHospitalUrl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvHospitalTel"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@{data.hospitalUrl}"
+            android:text="@{data.hospUrl}"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHospitalTel"
+            android:paddingBottom="5dp"
+            />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/tvHospitalUrl"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

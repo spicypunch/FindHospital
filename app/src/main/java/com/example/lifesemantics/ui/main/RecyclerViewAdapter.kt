@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lifesemantics.data.entity.BasicHospitalInfoEntity
+import com.example.lifesemantics.data.entity.Item
 import com.example.lifesemantics.databinding.ItemBinding
 
-class RecyclerViewAdapter() : ListAdapter<BasicHospitalInfoEntity, RecyclerViewAdapter.MyViewHolder>(diffUtil) {
+class RecyclerViewAdapter() : ListAdapter<Item, RecyclerViewAdapter.MyViewHolder>(diffUtil) {
 
     class MyViewHolder(private val binding: ItemBinding) :  RecyclerView.ViewHolder(binding.root) {
         val root = binding.root
 
-        fun bind(item: BasicHospitalInfoEntity) {
-
+        fun bind(item: Item) {
+            binding.data = item
         }
     }
 
@@ -29,18 +29,18 @@ class RecyclerViewAdapter() : ListAdapter<BasicHospitalInfoEntity, RecyclerViewA
 
     companion object {
 
-        val diffUtil = object : DiffUtil.ItemCallback<BasicHospitalInfoEntity>() {
+        val diffUtil = object : DiffUtil.ItemCallback<Item>() {
 
             override fun areItemsTheSame(
-                oldItem: BasicHospitalInfoEntity,
-                newItem: BasicHospitalInfoEntity
+                oldItem: Item,
+                newItem: Item
             ): Boolean {
-                return (oldItem.hospitalUrl == newItem.hospitalUrl)
+                return (oldItem.hospUrl == newItem.hospUrl)
             }
 
             override fun areContentsTheSame(
-                oldItem: BasicHospitalInfoEntity,
-                newItem: BasicHospitalInfoEntity
+                oldItem: Item,
+                newItem: Item
             ): Boolean {
                 return oldItem == newItem
             }

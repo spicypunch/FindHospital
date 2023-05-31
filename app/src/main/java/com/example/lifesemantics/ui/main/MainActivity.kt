@@ -3,11 +3,13 @@ package com.example.lifesemantics.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lifesemantics.R
 import com.example.lifesemantics.databinding.ActivityMainBinding
 import com.example.lifesemantics.ui.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,8 +22,10 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
     private val adapter by lazy { RecyclerViewAdapter() }
+
     // 위도
     private var latitude: Double = 0.0
+
     // 경도
     private var longitude: Double = 0.0
 
@@ -53,12 +57,21 @@ class MainActivity : AppCompatActivity() {
         getMyLocation()
 
         binding.buttonSearch.setOnClickListener {
-            mainViewModel.getHospitalInfo(binding.editTextSearch.text.toString(), latitude, longitude)
+            mainViewModel.getHospitalInfo(
+                binding.editTextSearch.text.toString(),
+                latitude,
+                longitude
+            )
         }
 
-
         mainViewModel.hospitalInfo.observe(this, Observer {
-            Log.e("test", it.toString())
+            it.body?.items?.itemList?.let { itemList ->
+                adapter.submitList(itemList)
+                val searchResultMessage = getString(R.string.search_result, itemList.size)
+                binding.tvSearchResult.text = searchResultMessage
+                binding.tvSearchResult.visibility = View.VISIBLE
+            }
+
         })
     }
 
