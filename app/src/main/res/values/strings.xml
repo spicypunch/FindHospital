@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">LifeSemantics</string>
+    <string name="app_name">LifeSemantics</string>]
+    <string name="search_result">검색 결과 %1$d건</string>
 </resources>
