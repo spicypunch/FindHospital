@@ -25,14 +25,16 @@
 <br>
 
 #### 병원 선택
-![Screen_Recording_20230602_015331_LifeSemantics_3](https://github.com/spicypunch/LifeSemantics/assets/72846127/aa2f4abd-cec5-488c-befb-8f9a5a100948)
+
+![Screen_Recording_20230602_015331_LifeSemantics_2](https://github.com/spicypunch/LifeSemantics/assets/72846127/9fadc379-34b6-4d7d-95d7-3d422d4284c0)
 
 - 병원 중 한 곳을 선택하면 해당 병원의 세부 정보가 표시 됩니다.
 
 <br>
 
 #### 페이지 이동
-![Screen_Recording_20230602_015331_LifeSemantics_2](https://github.com/spicypunch/LifeSemantics/assets/72846127/9fadc379-34b6-4d7d-95d7-3d422d4284c0)
+
+![Screen_Recording_20230602_015331_LifeSemantics_3](https://github.com/spicypunch/LifeSemantics/assets/72846127/aa2f4abd-cec5-488c-befb-8f9a5a100948)
 
 - 페이지 이동 버튼을 통해 앞 뒤 병원 목록을 확인할 수 있습니다.
 
