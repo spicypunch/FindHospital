@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">LifeSemantics</string>]
     <string name="search_result">검색 결과 %1$d건</string>
-    <string name="distance">현재 위치와 병원 사이의 남은 거리는</string>
 </resources>
