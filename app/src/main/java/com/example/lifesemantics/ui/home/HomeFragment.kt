@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
@@ -31,8 +33,10 @@ class HomeFragment : Fragment(), ItemClickListener {
     private val adapter by lazy { RecyclerViewAdapter(this) }
 
     private lateinit var navController: NavController
+
     // 위도
     private var latitude: Double = 0.0
+
     // 경도
     private var longitude: Double = 0.0
 
@@ -45,8 +49,8 @@ class HomeFragment : Fragment(), ItemClickListener {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             result.forEach {
                 if (!it.value) {
-                    Toast.makeText(context, "${it.key}권한 허용 필요", Toast.LENGTH_SHORT).show()
-//                    finish()
+                    Toast.makeText(context, "위치 접근 권한 허용이 필요합니다.", Toast.LENGTH_SHORT).show()
+                    requireActivity().finish()
                 }
             }
         }
@@ -82,8 +86,15 @@ class HomeFragment : Fragment(), ItemClickListener {
             }
         }
 
+        binding.btnPageNext.setOnClickListener {
+            mainViewModel.nextInfo()
+        }
+
+        binding.btnPagePrevious.setOnClickListener {
+            mainViewModel.previousInfo()
+        }
+
         mainViewModel.hospitalInfo.observe(viewLifecycleOwner, Observer {
-            Log.e("test", it.toString())
             if (it.body?.items?.itemList == null) {
                 binding.recyclerView.visibility = View.GONE
                 binding.tvSearchResult.visibility = View.GONE
@@ -99,9 +110,13 @@ class HomeFragment : Fragment(), ItemClickListener {
                 }
             }
         })
+
+        mainViewModel.cnt.observe(viewLifecycleOwner, Observer {
+            binding.tvPageNum.text = it.toString()
+        })
+
         super.onViewCreated(view, savedInstanceState)
     }
-
     private fun getMyLocation() {
         val locationProvider = LocationProvider(requireContext())
         latitude = locationProvider.getLocationLatitude()
