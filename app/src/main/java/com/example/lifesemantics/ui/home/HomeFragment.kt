@@ -121,7 +121,13 @@ class HomeFragment : Fragment(), ItemClickListener {
         })
         // 하단에 현재 페이지의 숫자를 출력한다.
         mainViewModel.cnt.observe(viewLifecycleOwner, Observer {
-            binding.tvPageNum.text = it.toString()
+            if (it == 1) {
+                binding.btnPagePrevious.visibility = View.INVISIBLE
+                binding.tvPageNum.text = it.toString()
+            } else {
+                binding.tvPageNum.text = it.toString()
+            }
+
         })
 
         super.onViewCreated(view, savedInstanceState)

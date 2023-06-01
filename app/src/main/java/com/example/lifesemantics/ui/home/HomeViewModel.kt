@@ -32,6 +32,7 @@ class HomeViewModel @Inject constructor(
     fun getHospitalInfo(hospitalName: String, latitude: Double, longitude: Double) {
         viewModelScope.launch {
             try {
+                pageNo = 1
                 _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo(
                     hospitalName = hospitalName,
                     pageNo = pageNo,
@@ -68,13 +69,15 @@ class HomeViewModel @Inject constructor(
     fun previousInfo() {
         viewModelScope.launch {
             try {
-                _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo(
-                    hospitalName = hospitalName,
-                    pageNo = --pageNo,
-                    latitude = latitude,
-                    longitude = longitude
-                )
-                _cnt.value = pageNo
+                if (pageNo != 1) {
+                    _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo(
+                        hospitalName = hospitalName,
+                        pageNo = --pageNo,
+                        latitude = latitude,
+                        longitude = longitude
+                    )
+                    _cnt.value = pageNo
+                }
             } catch (e: Exception) {
                 Log.e("Exception", e.toString())
             }
