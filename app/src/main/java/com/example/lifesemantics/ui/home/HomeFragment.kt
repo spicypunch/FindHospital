@@ -33,13 +33,11 @@ class HomeFragment : Fragment(), ItemClickListener {
     private val adapter by lazy { RecyclerViewAdapter(this) }
 
     private lateinit var navController: NavController
-
     // 위도
     private var latitude: Double = 0.0
-
     // 경도
     private var longitude: Double = 0.0
-
+    // 권한 리스트
     private val permissionList = arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -60,7 +58,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
+        // 위치접근 권한을 먼저 확인한다.
         requestMultiplePermission.launch(permissionList)
 
         return binding.root
@@ -71,9 +69,10 @@ class HomeFragment : Fragment(), ItemClickListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         navController = Navigation.findNavController(view)
-
+        // 먼저 현재 내 위치 정보를 가져와 latitude와 longitude에 넣어준다.
         getMyLocation()
 
+        // 검색 텍스트 여백을 검사한 후 API 요청을 한다.
         binding.buttonSearch.setOnClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
@@ -85,32 +84,42 @@ class HomeFragment : Fragment(), ItemClickListener {
                 )
             }
         }
-
+        // 다음 데이터를 확인하고 싶을 때
         binding.btnPageNext.setOnClickListener {
             mainViewModel.nextInfo()
         }
-
+        // 이전 데이터를 확인하고 싶을 때
         binding.btnPagePrevious.setOnClickListener {
             mainViewModel.previousInfo()
         }
-
+        // 받아온 데이터를 확인 후 상황에 따라 fragment에 보여질 View을 설정해 주고 데이터를 Adapter에 넘겨준다.
         mainViewModel.hospitalInfo.observe(viewLifecycleOwner, Observer {
             if (it.body?.items?.itemList == null) {
-                binding.recyclerView.visibility = View.GONE
-                binding.tvSearchResult.visibility = View.GONE
-                binding.tvResultNull.visibility = View.VISIBLE
+                binding.apply {
+                    recyclerView.visibility = View.GONE
+                    tvSearchResult.visibility = View.GONE
+                    btnPageNext.visibility = View.GONE
+                    btnPagePrevious.visibility = View.GONE
+                    tvPageNum.visibility = View.GONE
+                    tvResultNull.visibility = View.VISIBLE
+                }
             } else {
                 it.body?.items?.itemList?.let { itemList ->
                     adapter.submitList(itemList)
                     val searchResultMessage = getString(R.string.search_result, itemList.size)
-                    binding.tvSearchResult.text = searchResultMessage
-                    binding.tvResultNull.visibility = View.GONE
-                    binding.recyclerView.visibility = View.VISIBLE
-                    binding.tvSearchResult.visibility = View.VISIBLE
+                    binding.apply {
+                        tvSearchResult.text = searchResultMessage
+                        tvResultNull.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+                        tvSearchResult.visibility = View.VISIBLE
+                        btnPageNext.visibility = View.VISIBLE
+                        btnPagePrevious.visibility = View.VISIBLE
+                        tvPageNum.visibility = View.VISIBLE
+                    }
                 }
             }
         })
-
+        // 하단에 현재 페이지의 숫자를 출력한다.
         mainViewModel.cnt.observe(viewLifecycleOwner, Observer {
             binding.tvPageNum.text = it.toString()
         })
@@ -123,6 +132,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         longitude = locationProvider.getLocationLongitude()
     }
 
+    // Adapter에서 넘어온 데이터를 Bundle에 저장하고 navController에 넘긴다.
     override fun onClick(item: Item) {
         val bundle = Bundle().apply {
             putParcelable("data", item)

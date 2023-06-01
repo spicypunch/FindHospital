@@ -15,6 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val hospitalInfoRepository: HospitalInfoRepositoryImpl
 ) : ViewModel() {
+    // 현재 페이지를 가지고 있는 LiveData
     private var _cnt = MutableLiveData(1)
     val cnt: LiveData<Int>
         get() = _cnt

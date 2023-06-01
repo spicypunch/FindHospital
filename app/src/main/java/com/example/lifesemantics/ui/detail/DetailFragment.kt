@@ -22,13 +22,14 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Parcelable 형식으로 받아온 데이터 역직렬화
         val data = arguments?.getParcelable<Item>("data")
         binding.detailData = data
         super.onViewCreated(view, savedInstanceState)
