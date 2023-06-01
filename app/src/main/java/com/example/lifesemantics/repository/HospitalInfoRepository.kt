@@ -4,5 +4,5 @@ import com.example.lifesemantics.data.entity.HospitalInfoResponse
 
 interface HospitalInfoRepository {
 
-    suspend fun getHospitalInfo(HospitalName: String, latitude: Double, longitude: Double): HospitalInfoResponse
+    suspend fun getHospitalInfo(hospitalName: String, pageNo: Int, latitude: Double, longitude: Double): HospitalInfoResponse
 }

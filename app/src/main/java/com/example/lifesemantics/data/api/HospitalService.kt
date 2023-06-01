@@ -10,6 +10,7 @@ interface HospitalService {
     suspend fun getHospitalInfo(
         @Query("ServiceKey") serviceKey: String,
         @Query("yadmNm") hospitalName: String,
+        @Query("pageNo") pageNo: String,
         @Query("yPos") latitude: String,
         @Query("xPos") longitude: String,
         @Query("radius") radius: String
