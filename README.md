@@ -14,8 +14,32 @@
 
 ### UI
 ----------
-![Screen_Recording_20230602_015331_LifeSemantics_3](https://github.com/spicypunch/LifeSemantics/assets/72846127/aa2f4abd-cec5-488c-befb-8f9a5a100948)
-![Screen_Recording_20230602_015331_LifeSemantics_4](https://github.com/spicypunch/LifeSemantics/assets/72846127/a7e053fb-b2d7-400c-9fb7-de3e41b230c8)
-![Screen_Recording_20230602_015331_LifeSemantics_5](https://github.com/spicypunch/LifeSemantics/assets/72846127/d40b88c7-1f49-4acf-a30c-a85ee75b274d)
+#### 병원 검색
+
 ![Screen_Recording_20230602_015331_LifeSemantics_1](https://github.com/spicypunch/LifeSemantics/assets/72846127/ab38f20c-1ad1-4857-96a5-0e8340fefd44)
+
+- 검색어를 입력하면 검색어를 포함한 병원 리스트가 출력됩니다.
+- 10개 병원 단위로 출력되고 검색 결과가 나옵니다.
+- 페이지를 넘길 수 있는 버튼이 표시되고 현재 페이지가 출력됩니다.
+
+#### 병원 선택
+![Screen_Recording_20230602_015331_LifeSemantics_3](https://github.com/spicypunch/LifeSemantics/assets/72846127/aa2f4abd-cec5-488c-befb-8f9a5a100948)
+
+- 병원 중 한 곳을 선택하면 해당 병원의 세부 정보가 표시 됩니다.
+
+#### 페이지 이동
 ![Screen_Recording_20230602_015331_LifeSemantics_2](https://github.com/spicypunch/LifeSemantics/assets/72846127/9fadc379-34b6-4d7d-95d7-3d422d4284c0)
+
+- 페이지 이동 버튼을 통해 앞 뒤 병원 목록을 확인할 수 있습니다.
+
+#### 검색 결과 없음
+![Screen_Recording_20230602_015331_LifeSemantics_4](https://github.com/spicypunch/LifeSemantics/assets/72846127/a7e053fb-b2d7-400c-9fb7-de3e41b230c8)
+
+- 검색 결과가 없을 경우 다른 뷰들은 사라지고 검색된 병원이 없습니다 라는 문구가 나옵니다.
+
+#### 다시 검색할 경우
+![Screen_Recording_20230602_015331_LifeSemantics_5](https://github.com/spicypunch/LifeSemantics/assets/72846127/d40b88c7-1f49-4acf-a30c-a85ee75b274d)
+
+- 검색결과와 병원 리스트, 페이지 이동 버튼이 나타납니다.
+
+
