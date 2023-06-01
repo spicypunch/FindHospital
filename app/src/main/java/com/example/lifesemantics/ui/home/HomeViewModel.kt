@@ -1,4 +1,4 @@
-package com.example.lifesemantics.ui.main
+package com.example.lifesemantics.ui.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -12,10 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val hospitalInfoRepository: HospitalInfoRepositoryImpl
-): ViewModel() {
-
+) : ViewModel() {
     private var _hospitalInfo = MutableLiveData<HospitalInfoResponse>()
     val hospitalInfo: LiveData<HospitalInfoResponse>
         get() = _hospitalInfo

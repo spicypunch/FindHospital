@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="detailData"
+            type="com.example.lifesemantics.data.entity.Item" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.detail.DetailActivity">
+
+        <TextView
+            android:id="@+id/tvDetailHospitalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
+            android:text="@{detailData.yadmNm}"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{`병원까지의 거리: 약` + String.valueOf((int) (Double.parseDouble(detailData.distance) / 1000)) + `km`}"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailHospitalName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tvDetailUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원 Url: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDistance"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDetailUrl2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{detailData.hospUrl}"
+            android:textSize="18sp"
+            android:linksClickable="true"
+            android:autoLink="web"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDistance"
+            app:layout_constraintStart_toEndOf="@+id/tvDetailUrl" />
+
+        <TextView
+            android:id="@+id/tvDetailTel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원 전화번호: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailUrl"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDetailTel2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{detailData.telno}"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailUrl"
+            app:layout_constraintStart_toEndOf="@+id/tvDetailTel" />
+
+        <TextView
+            android:id="@+id/tvDetailAddr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원 주소: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailTel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDetailAddr2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{detailData.addr}"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailTel"
+            app:layout_constraintStart_toEndOf="@+id/tvDetailAddr" />
+
+        <TextView
+            android:id="@+id/tvDetailClCdNm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원 분류: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailAddr"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDetailClCdNm2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{detailData.clCdNm}"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailAddr"
+            app:layout_constraintStart_toEndOf="@+id/tvDetailClCdNm" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
