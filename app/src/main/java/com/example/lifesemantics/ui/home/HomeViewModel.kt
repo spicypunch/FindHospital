@@ -49,38 +49,4 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-    fun nextInfo() {
-        viewModelScope.launch {
-            try {
-                _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo(
-                    hospitalName = hospitalName,
-                    pageNo = ++pageNo,
-                    latitude = latitude,
-                    longitude = longitude
-                )
-                _cnt.value = pageNo
-            } catch (e: Exception) {
-                Log.e("Exception", e.toString())
-            }
-        }
-    }
-
-    fun previousInfo() {
-        viewModelScope.launch {
-            try {
-                if (pageNo != 1) {
-                    _hospitalInfo.value = hospitalInfoRepository.getHospitalInfo(
-                        hospitalName = hospitalName,
-                        pageNo = --pageNo,
-                        latitude = latitude,
-                        longitude = longitude
-                    )
-                    _cnt.value = pageNo
-                }
-            } catch (e: Exception) {
-                Log.e("Exception", e.toString())
-            }
-        }
-    }
 }

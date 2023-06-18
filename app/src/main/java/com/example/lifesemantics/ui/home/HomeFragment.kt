@@ -84,23 +84,12 @@ class HomeFragment : Fragment(), ItemClickListener {
                 )
             }
         }
-        // 다음 데이터를 확인하고 싶을 때
-        binding.btnPageNext.setOnClickListener {
-            mainViewModel.nextInfo()
-        }
-        // 이전 데이터를 확인하고 싶을 때
-        binding.btnPagePrevious.setOnClickListener {
-            mainViewModel.previousInfo()
-        }
         // 받아온 데이터를 확인 후 상황에 따라 fragment에 보여질 View을 설정해 주고 데이터를 Adapter에 넘겨준다.
         mainViewModel.hospitalInfo.observe(viewLifecycleOwner, Observer {
             if (it.body?.items?.itemList == null) {
                 binding.apply {
                     recyclerView.visibility = View.GONE
                     tvSearchResult.visibility = View.GONE
-                    btnPageNext.visibility = View.GONE
-                    btnPagePrevious.visibility = View.GONE
-                    tvPageNum.visibility = View.GONE
                     tvResultNull.visibility = View.VISIBLE
                 }
             } else {
@@ -112,24 +101,10 @@ class HomeFragment : Fragment(), ItemClickListener {
                         tvResultNull.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         tvSearchResult.visibility = View.VISIBLE
-                        btnPageNext.visibility = View.VISIBLE
-                        btnPagePrevious.visibility = View.VISIBLE
-                        tvPageNum.visibility = View.VISIBLE
                     }
                 }
             }
         })
-        // 하단에 현재 페이지의 숫자를 출력한다.
-        mainViewModel.cnt.observe(viewLifecycleOwner, Observer {
-            if (it == 1) {
-                binding.btnPagePrevious.visibility = View.INVISIBLE
-                binding.tvPageNum.text = it.toString()
-            } else {
-                binding.tvPageNum.text = it.toString()
-            }
-
-        })
-
         super.onViewCreated(view, savedInstanceState)
     }
     private fun getMyLocation() {
