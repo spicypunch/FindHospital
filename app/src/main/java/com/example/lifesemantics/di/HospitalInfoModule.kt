@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Singleton
 
 @Module
@@ -23,6 +24,8 @@ object HospitalInfoModule {
                 TikXmlConverterFactory.create(
                     TikXml.Builder().exceptionOnUnreadXml(false).build()
                 )
-            ).build().create(HospitalService::class.java)
+            )
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build().create(HospitalService::class.java)
     }
 }
