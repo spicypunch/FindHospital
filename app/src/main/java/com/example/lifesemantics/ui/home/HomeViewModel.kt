@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val hospitalInfoRepository: HospitalInfoRepositoryImpl
+    private val hospitalInfoRepositoryimpl: HospitalInfoRepositoryImpl
 ) : ViewModel() {
     private var _hospitalInfo = MutableLiveData<HospitalInfoResponse>()
     val hospitalInfo: LiveData<HospitalInfoResponse>
@@ -27,20 +27,19 @@ class HomeViewModel @Inject constructor(
 
     fun getHospitalInfo(hospitalName: String, latitude: Double, longitude: Double) {
         pageNo = 1
-        val disposable = Single.fromCallable {
-            hospitalInfoRepository.getHospitalInfo(
-                hospitalName = hospitalName,
-                pageNo = pageNo,
-                latitude = latitude,
-                longitude = longitude
-            )
-        }.subscribeOn(Schedulers.io())
+        val disposable = hospitalInfoRepositoryimpl.getHospitalInfo(
+            hospitalName = hospitalName,
+            pageNo = pageNo,
+            latitude = latitude,
+            longitude = longitude
+        )
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
-                _hospitalInfo.value = response.blockingGet()
+                _hospitalInfo.value = response
             }, { error ->
-            Log.e("Error", error.toString())
-        })
+                Log.e("Error", error.toString())
+            })
         compositeDisposable.add(disposable)
     }
 

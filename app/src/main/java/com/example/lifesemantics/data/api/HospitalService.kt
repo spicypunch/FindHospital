@@ -1,6 +1,7 @@
 package com.example.lifesemantics.data.api
 
 import com.example.lifesemantics.data.entity.HospitalInfoResponse
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,5 +15,5 @@ interface HospitalService {
         @Query("yPos") latitude: String,
         @Query("xPos") longitude: String,
         @Query("radius") radius: String
-    ) : HospitalInfoResponse
+    ) : Single<HospitalInfoResponse>
 }
