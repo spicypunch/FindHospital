@@ -1,16 +1,12 @@
 package com.example.lifesemantics.ui.home
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -77,6 +73,7 @@ class HomeFragment : Fragment(), ItemClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else {
+                binding.progressBar.visibility = View.VISIBLE
                 mainViewModel.getHospitalInfo(
                     binding.editTextSearch.text.toString(),
                     latitude,
@@ -84,23 +81,13 @@ class HomeFragment : Fragment(), ItemClickListener {
                 )
             }
         }
-        // 다음 데이터를 확인하고 싶을 때
-        binding.btnPageNext.setOnClickListener {
-            mainViewModel.nextInfo()
-        }
-        // 이전 데이터를 확인하고 싶을 때
-        binding.btnPagePrevious.setOnClickListener {
-            mainViewModel.previousInfo()
-        }
         // 받아온 데이터를 확인 후 상황에 따라 fragment에 보여질 View을 설정해 주고 데이터를 Adapter에 넘겨준다.
         mainViewModel.hospitalInfo.observe(viewLifecycleOwner, Observer {
             if (it.body?.items?.itemList == null) {
                 binding.apply {
+                    progressBar.visibility = View.GONE
                     recyclerView.visibility = View.GONE
                     tvSearchResult.visibility = View.GONE
-                    btnPageNext.visibility = View.GONE
-                    btnPagePrevious.visibility = View.GONE
-                    tvPageNum.visibility = View.GONE
                     tvResultNull.visibility = View.VISIBLE
                 }
             } else {
@@ -108,26 +95,14 @@ class HomeFragment : Fragment(), ItemClickListener {
                     adapter.submitList(itemList)
                     val searchResultMessage = getString(R.string.search_result, itemList.size)
                     binding.apply {
+                        progressBar.visibility = View.GONE
                         tvSearchResult.text = searchResultMessage
                         tvResultNull.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         tvSearchResult.visibility = View.VISIBLE
-                        btnPageNext.visibility = View.VISIBLE
-                        btnPagePrevious.visibility = View.VISIBLE
-                        tvPageNum.visibility = View.VISIBLE
                     }
                 }
             }
-        })
-        // 하단에 현재 페이지의 숫자를 출력한다.
-        mainViewModel.cnt.observe(viewLifecycleOwner, Observer {
-            if (it == 1) {
-                binding.btnPagePrevious.visibility = View.INVISIBLE
-                binding.tvPageNum.text = it.toString()
-            } else {
-                binding.tvPageNum.text = it.toString()
-            }
-
         })
 
         super.onViewCreated(view, savedInstanceState)
