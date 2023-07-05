@@ -13,7 +13,7 @@ class HospitalInfoRepositoryImpl @Inject constructor(
     private val hospitalService: HospitalService
 ) : HospitalInfoRepository {
 
-    override suspend fun getHospitalInfo(hospitalName: String, pageNo: Int, latitude: Double, longitude: Double): Flow<PagingData<Item>> {
+    override suspend fun getHospitalInfo(hospitalName: String, latitude: Double, longitude: Double): Flow<PagingData<Item>> {
         return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
             PagingSource(hospitalService, hospitalName, latitude, longitude)
         }.flow

@@ -14,12 +14,13 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val hospitalInfoRepository: HospitalInfoRepositoryImpl
 ) : ViewModel() {
-    private var currentHospitalInfo: Flow<PagingData<Item>>? = null
 
-    suspend fun getHospitalInfo(hospitalName: String, latitude: Double, longitude: Double): Flow<PagingData<Item>> {
-        val newHospitalInfo = hospitalInfoRepository.getHospitalInfo(hospitalName, 1, latitude, longitude)
+    suspend fun getHospitalInfo(
+        hospitalName: String,
+        latitude: Double,
+        longitude: Double
+    ): Flow<PagingData<Item>> {
+        return hospitalInfoRepository.getHospitalInfo(hospitalName, latitude, longitude)
             .cachedIn(viewModelScope)
-        currentHospitalInfo = newHospitalInfo
-        return newHospitalInfo
     }
 }
