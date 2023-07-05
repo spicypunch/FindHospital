@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface HospitalInfoRepository {
 
-    suspend fun getHospitalInfo(hospitalName: String, pageNo: Int, latitude: Double, longitude: Double): Flow<PagingData<Item>>
+    suspend fun getHospitalInfo(hospitalName: String, latitude: Double, longitude: Double): Flow<PagingData<Item>>
 }

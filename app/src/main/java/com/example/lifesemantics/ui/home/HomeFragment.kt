@@ -94,7 +94,6 @@ class HomeFragment : Fragment(), ItemClickListener {
                             ).collect() { pagingData ->
                                 binding.progressBar.visibility = View.GONE
                                 adapter.submitData(lifecycle, pagingData)
-                                Log.e("test", pagingData.toString())
 //                                val searchResultMessage = getString(R.string.search_result, pagingData)
                                 binding.apply {
 //                                    tvSearchResult.text = searchResultMessage
