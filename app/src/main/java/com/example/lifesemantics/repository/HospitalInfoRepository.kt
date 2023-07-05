@@ -1,8 +1,10 @@
 package com.example.lifesemantics.repository
 
-import com.example.lifesemantics.data.entity.HospitalInfoResponse
+import androidx.paging.PagingData
+import com.example.lifesemantics.data.entity.Item
+import kotlinx.coroutines.flow.Flow
 
 interface HospitalInfoRepository {
 
-    suspend fun getHospitalInfo(hospitalName: String, pageNo: Int, latitude: Double, longitude: Double): HospitalInfoResponse
+    suspend fun getHospitalInfo(hospitalName: String, pageNo: Int, latitude: Double, longitude: Double): Flow<PagingData<Item>>
 }

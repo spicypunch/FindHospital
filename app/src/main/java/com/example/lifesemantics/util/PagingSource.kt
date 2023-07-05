@@ -40,5 +40,4 @@ class PagingSource @Inject constructor(
             state.closestPageToPosition(it)?.prevKey
         }
     }
-
 }
