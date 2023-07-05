@@ -2,17 +2,17 @@ package com.example.lifesemantics.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +22,9 @@ import com.example.lifesemantics.databinding.FragmentHomeBinding
 import com.example.lifesemantics.listener.ItemClickListener
 import com.example.lifesemantics.util.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.util.logging.Logger
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), ItemClickListener {
@@ -33,10 +36,13 @@ class HomeFragment : Fragment(), ItemClickListener {
     private val adapter by lazy { RecyclerViewAdapter(this) }
 
     private lateinit var navController: NavController
+
     // 위도
     private var latitude: Double = 0.0
+
     // 경도
     private var longitude: Double = 0.0
+
     // 권한 리스트
     private val permissionList = arrayOf(
         android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -77,61 +83,34 @@ class HomeFragment : Fragment(), ItemClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else {
-                mainViewModel.getHospitalInfo(
-                    binding.editTextSearch.text.toString(),
-                    latitude,
-                    longitude
-                )
-            }
-        }
-        // 다음 데이터를 확인하고 싶을 때
-        binding.btnPageNext.setOnClickListener {
-            mainViewModel.nextInfo()
-        }
-        // 이전 데이터를 확인하고 싶을 때
-        binding.btnPagePrevious.setOnClickListener {
-            mainViewModel.previousInfo()
-        }
-        // 받아온 데이터를 확인 후 상황에 따라 fragment에 보여질 View을 설정해 주고 데이터를 Adapter에 넘겨준다.
-        mainViewModel.hospitalInfo.observe(viewLifecycleOwner, Observer {
-            if (it.body?.items?.itemList == null) {
-                binding.apply {
-                    recyclerView.visibility = View.GONE
-                    tvSearchResult.visibility = View.GONE
-                    btnPageNext.visibility = View.GONE
-                    btnPagePrevious.visibility = View.GONE
-                    tvPageNum.visibility = View.GONE
-                    tvResultNull.visibility = View.VISIBLE
-                }
-            } else {
-                it.body?.items?.itemList?.let { itemList ->
-                    adapter.submitList(itemList)
-                    val searchResultMessage = getString(R.string.search_result, itemList.size)
-                    binding.apply {
-                        tvSearchResult.text = searchResultMessage
-                        tvResultNull.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                        tvSearchResult.visibility = View.VISIBLE
-                        btnPageNext.visibility = View.VISIBLE
-                        btnPagePrevious.visibility = View.VISIBLE
-                        tvPageNum.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        launch {
+                            mainViewModel.getHospitalInfo(
+                                binding.editTextSearch.text.toString(),
+                                latitude,
+                                longitude
+                            ).collect() { pagingData ->
+                                binding.progressBar.visibility = View.GONE
+                                adapter.submitData(lifecycle, pagingData)
+                                Log.e("test", pagingData.toString())
+//                                val searchResultMessage = getString(R.string.search_result, pagingData)
+                                binding.apply {
+//                                    tvSearchResult.text = searchResultMessage
+                                    tvResultNull.visibility = View.GONE
+                                    recyclerView.visibility = View.VISIBLE
+                                    tvSearchResult.visibility = View.VISIBLE
+                                }
+                            }
+                        }
                     }
                 }
             }
-        })
-        // 하단에 현재 페이지의 숫자를 출력한다.
-        mainViewModel.cnt.observe(viewLifecycleOwner, Observer {
-            if (it == 1) {
-                binding.btnPagePrevious.visibility = View.INVISIBLE
-                binding.tvPageNum.text = it.toString()
-            } else {
-                binding.tvPageNum.text = it.toString()
-            }
-
-        })
-
+        }
         super.onViewCreated(view, savedInstanceState)
     }
+
     private fun getMyLocation() {
         val locationProvider = LocationProvider(requireContext())
         latitude = locationProvider.getLocationLatitude()
