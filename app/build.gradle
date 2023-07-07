@@ -88,4 +88,7 @@ dependencies {
 
     // Logger
     implementation 'com.orhanobut:logger:2.2.0'
+
+    // refresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
