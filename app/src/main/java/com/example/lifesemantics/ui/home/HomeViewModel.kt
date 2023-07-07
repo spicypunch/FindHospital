@@ -1,5 +1,6 @@
 package com.example.lifesemantics.ui.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -18,7 +19,8 @@ class HomeViewModel @Inject constructor(
     private val hospitalInfoRepository: HospitalInfoRepositoryImpl
 ) : ViewModel() {
 
-    private var _data = MutableLiveData<PagingData<Item>>()
+    private var _data = MutableLiveData<Flow<PagingData<Item>>>()
+    val data: MutableLiveData<Flow<PagingData<Item>>> = _data
 
     suspend fun getHospitalInfo(
         hospitalName: String,
@@ -29,16 +31,15 @@ class HomeViewModel @Inject constructor(
             .cachedIn(viewModelScope)
     }
 
-    fun getHospitalInfo2(
-        hospitalName: String,
-        latitude: Double,
-        longitude: Double
-    ) {
-        viewModelScope.launch {
-            val result = hospitalInfoRepository.getHospitalInfo(hospitalName, latitude, longitude)
-                .cachedIn(viewModelScope)
-                .asLiveData()
-            _data.value = result.value
-        }
-    }
+//    fun getHospitalInfo2(
+//        hospitalName: String,
+//        latitude: Double,
+//        longitude: Double
+//    ) {
+//        viewModelScope.launch {
+//            val result = hospitalInfoRepository.getHospitalInfo(hospitalName, latitude, longitude)
+//                .cachedIn(viewModelScope)
+//            _data.value = result
+//        }
+//    }
 }

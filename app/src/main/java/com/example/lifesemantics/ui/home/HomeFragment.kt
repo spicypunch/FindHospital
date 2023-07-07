@@ -1,6 +1,7 @@
 package com.example.lifesemantics.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
@@ -20,6 +22,7 @@ import com.example.lifesemantics.databinding.FragmentHomeBinding
 import com.example.lifesemantics.listener.ItemClickListener
 import com.example.lifesemantics.util.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -73,8 +76,9 @@ class HomeFragment : Fragment(), ItemClickListener {
         navController = Navigation.findNavController(view)
 
         binding.refreshLayout.setOnRefreshListener {
-            Toast.makeText(requireContext(), "refresh 중", Toast.LENGTH_SHORT).show()
-            binding.refreshLayout.isRefreshing = false
+            getData {
+                binding.refreshLayout.isRefreshing = false
+            }
         }
         // 먼저 현재 내 위치 정보를 가져와 latitude와 longitude에 넣어준다.
         getMyLocation()
@@ -84,31 +88,45 @@ class HomeFragment : Fragment(), ItemClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else {
+//                binding.progressBar.visibility = View.VISIBLE
+//                mainViewModel.getHospitalInfo2(
+//                    binding.editTextSearch.text.toString(),
+//                    latitude,
+//                    longitude
+//                )
                 binding.progressBar.visibility = View.VISIBLE
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        launch {
-                            mainViewModel.getHospitalInfo(
-                                binding.editTextSearch.text.toString(),
-                                latitude,
-                                longitude
-                            ).collect() { pagingData ->
-                                binding.progressBar.visibility = View.GONE
-                                adapter.submitData(lifecycle, pagingData)
-//                                val searchResultMessage = getString(R.string.search_result, pagingData)
-                                binding.apply {
-//                                    tvSearchResult.text = searchResultMessage
-                                    tvResultNull.visibility = View.GONE
-                                    recyclerView.visibility = View.VISIBLE
-                                    tvSearchResult.visibility = View.VISIBLE
-                                }
-                            }
+                getData {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+
+//        mainViewModel.data.observe(viewLifecycleOwner, Observer {
+//            binding.progressBar.visibility = View.GONE
+//            Log.e("it", it.toString())
+//        })
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun getData(completion: () ->Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mainViewModel.getHospitalInfo(
+                        binding.editTextSearch.text.toString(),
+                        latitude,
+                        longitude
+                    ).collect() { pagingData ->
+                        adapter.submitData(lifecycle, pagingData)
+                        binding.apply {
+                            tvResultNull.visibility = View.GONE
+                            recyclerView.visibility = View.VISIBLE
                         }
+                        completion()
                     }
                 }
             }
         }
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun getMyLocation() {
