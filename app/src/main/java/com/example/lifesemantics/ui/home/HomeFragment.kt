@@ -1,7 +1,6 @@
 package com.example.lifesemantics.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
@@ -22,9 +20,7 @@ import com.example.lifesemantics.databinding.FragmentHomeBinding
 import com.example.lifesemantics.listener.ItemClickListener
 import com.example.lifesemantics.util.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.logging.Logger
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), ItemClickListener {
@@ -75,6 +71,11 @@ class HomeFragment : Fragment(), ItemClickListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         navController = Navigation.findNavController(view)
+
+        binding.refreshLayout.setOnRefreshListener {
+            Toast.makeText(requireContext(), "refresh 중", Toast.LENGTH_SHORT).show()
+            binding.refreshLayout.isRefreshing = false
+        }
         // 먼저 현재 내 위치 정보를 가져와 latitude와 longitude에 넣어준다.
         getMyLocation()
 
