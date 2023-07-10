@@ -76,9 +76,8 @@ class HomeFragment : Fragment(), ItemClickListener {
         navController = Navigation.findNavController(view)
 
         binding.refreshLayout.setOnRefreshListener {
-            getData {
-                binding.refreshLayout.isRefreshing = false
-            }
+            getData()
+            binding.refreshLayout.isRefreshing = false
         }
         // 먼저 현재 내 위치 정보를 가져와 latitude와 longitude에 넣어준다.
         getMyLocation()
@@ -88,27 +87,13 @@ class HomeFragment : Fragment(), ItemClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else {
-//                binding.progressBar.visibility = View.VISIBLE
-//                mainViewModel.getHospitalInfo2(
-//                    binding.editTextSearch.text.toString(),
-//                    latitude,
-//                    longitude
-//                )
-                binding.progressBar.visibility = View.VISIBLE
-                getData {
-                    binding.progressBar.visibility = View.GONE
-                }
+                getData()
             }
         }
-
-//        mainViewModel.data.observe(viewLifecycleOwner, Observer {
-//            binding.progressBar.visibility = View.GONE
-//            Log.e("it", it.toString())
-//        })
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun getData(completion: () ->Unit) {
+    private fun getData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -122,7 +107,6 @@ class HomeFragment : Fragment(), ItemClickListener {
                             tvResultNull.visibility = View.GONE
                             recyclerView.visibility = View.VISIBLE
                         }
-                        completion()
                     }
                 }
             }
