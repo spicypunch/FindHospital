@@ -87,6 +87,7 @@ class HomeFragment : Fragment(), ItemClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else {
+                binding.progressBar.visibility = View.VISIBLE
                 getData()
             }
         }
@@ -96,6 +97,7 @@ class HomeFragment : Fragment(), ItemClickListener {
     private fun getData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                binding.progressBar.visibility = View.VISIBLE
                 launch {
                     mainViewModel.getHospitalInfo(
                         binding.editTextSearch.text.toString(),
@@ -106,6 +108,9 @@ class HomeFragment : Fragment(), ItemClickListener {
                         binding.apply {
                             tvResultNull.visibility = View.GONE
                             recyclerView.visibility = View.VISIBLE
+                            progressBar.post {
+                                progressBar.visibility = View.GONE
+                            }
                         }
                     }
                 }
