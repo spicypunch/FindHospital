@@ -70,9 +70,8 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(
             PagingLoadStateAdapter { adapter.retry() },
-            PagingLoadStateAdapter { adapter.retry() }
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
@@ -87,11 +86,8 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         // 검색 텍스트 여백을 검사한 후 API 요청을 한다.
         binding.buttonSearch.setOnClickListener {
-            if (binding.editTextSearch.text.toString().isEmpty()) {
-                Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
-            } else {
-                getData()
-            }
+            binding.progressBar.visibility = View.VISIBLE
+            getData()
         }
         super.onViewCreated(view, savedInstanceState)
     }
@@ -107,6 +103,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                 binding.apply {
                     tvResultNull.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
                 }
             }
         }
