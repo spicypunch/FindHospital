@@ -70,13 +70,16 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+            PagingLoadStateAdapter { adapter.retry() },
+            PagingLoadStateAdapter { adapter.retry() }
+        )
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         navController = Navigation.findNavController(view)
 
         binding.refreshLayout.setOnRefreshListener {
-            getData()
+            adapter.refresh()
             binding.refreshLayout.isRefreshing = false
         }
         // 먼저 현재 내 위치 정보를 가져와 latitude와 longitude에 넣어준다.
@@ -87,7 +90,6 @@ class HomeFragment : Fragment(), ItemClickListener {
             if (binding.editTextSearch.text.toString().isEmpty()) {
                 Toast.makeText(context, "검색어를 입력해주세요", Toast.LENGTH_SHORT).show()
             } else {
-                binding.progressBar.visibility = View.VISIBLE
                 getData()
             }
         }
@@ -95,24 +97,16 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     private fun getData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                binding.progressBar.visibility = View.VISIBLE
-                launch {
-                    mainViewModel.getHospitalInfo(
-                        binding.editTextSearch.text.toString(),
-                        latitude,
-                        longitude
-                    ).collect() { pagingData ->
-                        adapter.submitData(lifecycle, pagingData)
-                        binding.apply {
-                            tvResultNull.visibility = View.GONE
-                            recyclerView.visibility = View.VISIBLE
-                            progressBar.post {
-                                progressBar.visibility = View.GONE
-                            }
-                        }
-                    }
+        lifecycleScope.launch {
+            mainViewModel.getHospitalInfo(
+                binding.editTextSearch.text.toString(),
+                latitude,
+                longitude
+            ).collect() { pagingData ->
+                adapter.submitData(lifecycle, pagingData)
+                binding.apply {
+                    tvResultNull.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
                 }
             }
         }

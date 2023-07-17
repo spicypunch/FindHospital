@@ -16,9 +16,6 @@ class HomeViewModel @Inject constructor(
     private val hospitalInfoRepository: HospitalInfoRepositoryImpl
 ) : ViewModel() {
 
-    private var _data = MutableLiveData<Flow<PagingData<Item>>>()
-    val data: MutableLiveData<Flow<PagingData<Item>>> = _data
-
     suspend fun getHospitalInfo(
         hospitalName: String,
         latitude: Double,
@@ -27,16 +24,4 @@ class HomeViewModel @Inject constructor(
         return hospitalInfoRepository.getHospitalInfo(hospitalName, latitude, longitude)
             .cachedIn(viewModelScope)
     }
-
-//    fun getHospitalInfo2(
-//        hospitalName: String,
-//        latitude: Double,
-//        longitude: Double
-//    ) {
-//        viewModelScope.launch {
-//            val result = hospitalInfoRepository.getHospitalInfo(hospitalName, latitude, longitude)
-//                .cachedIn(viewModelScope)
-//            _data.value = result
-//        }
-//    }
 }
