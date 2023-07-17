@@ -41,7 +41,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) : PagingDataA
                 oldItem: Item,
                 newItem: Item
             ): Boolean {
-                return (oldItem.hospUrl == newItem.hospUrl)
+                return (oldItem.addr == newItem.addr)
             }
 
             override fun areContentsTheSame(
