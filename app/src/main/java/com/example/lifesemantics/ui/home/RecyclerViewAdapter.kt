@@ -9,9 +9,11 @@ import com.example.lifesemantics.data.entity.Item
 import com.example.lifesemantics.databinding.ItemBinding
 import com.example.lifesemantics.listener.ItemClickListener
 
-class RecyclerViewAdapter(private val listener: ItemClickListener) : PagingDataAdapter<Item, RecyclerViewAdapter.MyViewHolder>(diffUtil) {
+class RecyclerViewAdapter(private val listener: ItemClickListener) :
+    PagingDataAdapter<Item, RecyclerViewAdapter.MyViewHolder>(diffUtil) {
 
-    class MyViewHolder(private val binding: ItemBinding, private val listener: ItemClickListener) :  RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: ItemBinding, private val listener: ItemClickListener) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
             binding.data = item
 
@@ -22,7 +24,8 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) : PagingDataA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding: ItemBinding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemBinding =
+            ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding, listener)
     }
 
