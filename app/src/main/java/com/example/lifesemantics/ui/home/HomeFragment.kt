@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lifesemantics.R
 import com.example.lifesemantics.data.entity.Item
@@ -22,7 +21,7 @@ import com.example.lifesemantics.databinding.FragmentHomeBinding
 import com.example.lifesemantics.listener.ItemClickListener
 import com.example.lifesemantics.util.LocationProvider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -73,9 +72,14 @@ class HomeFragment : Fragment(), ItemClickListener {
         binding.recyclerView.adapter = adapter.withLoadStateFooter(
             PagingLoadStateAdapter { adapter.retry() },
         )
+
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         navController = Navigation.findNavController(view)
+
+        lifecycleScope.launch {
+            setupLoadState()
+        }
 
         binding.refreshLayout.setOnRefreshListener {
             adapter.refresh()
@@ -86,9 +90,9 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         // 검색 텍스트 여백을 검사한 후 API 요청을 한다.
         binding.buttonSearch.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
             getData()
         }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -100,11 +104,21 @@ class HomeFragment : Fragment(), ItemClickListener {
                 longitude
             ).collect() { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
-                binding.apply {
-                    tvResultNull.visibility = View.GONE
-                    recyclerView.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
+            }
+        }
+    }
+
+    private suspend fun setupLoadState() {
+        adapter.loadStateFlow.collect() { loadState ->
+            val isListEmpty = loadState.refresh is LoadState.Error && adapter.itemCount == 0
+            binding.apply {
+                recyclerView.isVisible = !isListEmpty
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+//                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+                if (loadState.refresh is LoadState.Error) {
+                    Toast.makeText(requireContext(), "검색된 결과가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
+                btnRetry.setOnClickListener { adapter.retry() }
             }
         }
     }
