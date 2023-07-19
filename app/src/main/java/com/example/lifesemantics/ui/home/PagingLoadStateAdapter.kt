@@ -17,7 +17,7 @@ class PagingLoadStateAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(state: LoadState) {
-            binding.retryButton.setOnClickListener { retry() }
+            binding.btnRetry.setOnClickListener { retry() }
             binding.isLoading = state is LoadState.Loading
             binding.isError = state is LoadState.Error
             binding.errorMessage = (state as? LoadState.Error)?.error?.message ?: "마지막 페이지입니다."
