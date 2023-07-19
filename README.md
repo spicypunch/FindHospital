@@ -57,8 +57,8 @@
 <br><br><br><br>
 ### 기능 추가 및 수정
 ------------
-![Screen_Recording_20230719_163239_LifeSemantics_2](https://github.com/spicypunch/NearByHospital/assets/72846127/0e45819b-3747-4baf-a76b-4599f83bbdce)
 ![Screen_Recording_20230719_163239_LifeSemantics_3](https://github.com/spicypunch/NearByHospital/assets/72846127/69aba50c-871d-4ea8-8bd3-60c482504297)
+![Screen_Recording_20230719_163239_LifeSemantics_2](https://github.com/spicypunch/NearByHospital/assets/72846127/0e45819b-3747-4baf-a76b-4599f83bbdce)
 
 - 데이터를 받아오는 동안 Progressbar가 나타납니다.
 - 맨 밑으로 이동할 경우 그다음 아이템을 받아옵니다.
