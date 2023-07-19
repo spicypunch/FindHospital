@@ -4,6 +4,7 @@
 ----------
 - Retrofit을 통해 API 통신을 하였습니다.
 - Navigation을 이용해 Fragment를 다뤘습니다.
+- Paging 3를 적용해 페이징 처리를 하였습니다.
 - Hilt를 사용해 의존성 주입을 하였습니다.
 - Coroutine을 이용해 비동기 처리를 하였습니다.
 - Repository Pattern을 적용해 코드의 가독성을 높였습니다.
@@ -53,3 +54,13 @@
 - 검색결과와 병원 리스트, 페이지 이동 버튼이 나타납니다.
 
 
+<br><br><br><br>
+### 기능 추가 및 수정
+------------
+![Screen_Recording_20230719_163239_LifeSemantics_2](https://github.com/spicypunch/NearByHospital/assets/72846127/0e45819b-3747-4baf-a76b-4599f83bbdce)
+![Screen_Recording_20230719_163239_LifeSemantics_3](https://github.com/spicypunch/NearByHospital/assets/72846127/69aba50c-871d-4ea8-8bd3-60c482504297)
+
+- 데이터를 받아오는 동안 Progressbar가 나타납니다.
+- 맨 밑으로 이동할 경우 그다음 아이템을 받아옵니다.
+- 아이템을 받아오는 동안 Progressbar가 나타납니다.
+- 만약 어떠한 이유로 에러가 발생했을 경우 Retry이 버튼이 나타나고 Retry 버튼을 누르면 데이터를 다시 받아옵니다.
