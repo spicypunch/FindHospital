@@ -61,6 +61,6 @@
 ![Screen_Recording_20230719_163239_LifeSemantics_2](https://github.com/spicypunch/NearByHospital/assets/72846127/0e45819b-3747-4baf-a76b-4599f83bbdce)
 
 - 데이터를 받아오는 동안 Progressbar가 나타납니다.
-- 맨 밑으로 이동할 경우 그다음 아이템을 받아옵니다.
+- 맨 밑으로 이동할 경우 그 다음 아이템을 받아옵니다.
 - 아이템을 받아오는 동안 Progressbar가 나타납니다.
 - 만약 어떠한 이유로 에러가 발생했을 경우 Retry이 버튼이 나타나고 Retry 버튼을 누르면 데이터를 다시 받아옵니다.
